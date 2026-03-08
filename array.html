@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>A</title>
+    <link rel=stylesheet href="lcao.css" ></href>
+</head>
+
+<body>
+    <h2>Cadastro de Produtos (Array de Objetos)</h2>
+
+    <label>Produto:</label>
+    <input id="nome" type="text" placeholder="Ex: Mouse">
+
+    <label>Preço (R$):</label>
+    <input id="preco" type="number" step="0.01" placeholder="Ex: 99.90">
+
+    <label>Quantidade:</label>
+    <input id="qtd" type="number" step="1" placeholder="Ex: 2">
+
+    <button id="btnAdicionar">Adicionar produto</button>
+    <button id="btnListar">Listar produtos</button>
+    <button id="btnResumo">Resumo</button>
+    <button id="btnLimpar">Limpar tudo</button>
+
+    <hr>
+
+    <h3>Remover por índice</h3>
+
+    <input id="idxRemover" type="number" step="1" placeholder="Ex: 0">
+    <button id="btnRemover">Remover</button>
+
+    <div id="saida" style="margin-top:16px;"></div>
+
+    <script>
+        const produtos = [];
+
+        const nomeEl = document.getElementById("nome");
+        const precoEl = document.getElementById("preco");
+        const qtdEl = document.getElementById("qtd");
+        const idxRemoverEl = document.getElementById("idxRemover");
+        const saida = document.getElementById("saida");
+
+        function limparCamposCadastro(){
+            nomeEl.value = "";
+            precoEl.value = "";
+            qtdEl.value = "";
+            nomeEl.focus();
+            }
+
+        function validarProduto(nome, preco, qtd){
+            if(nome.trim() === "")
+             return "Informe o nome do produto.";
+
+            if(!Number.isFinite(preco) || preco <= 0)
+             return "Informe um preço válido.";
+            if(!Number.isInteger(qtd) || qtd <= 0)
+             return "Informe uma quantidade válida.";
+            return null;
+        }
+
+        document.getElementById("btnAdicionar").addEventListener("click", function(){
+
+            const nome = nomeEl.value;
+            const preco = Number(precoEl.value);
+            const qtd = Number(qtdEl.value);
+
+            const erro = validarProduto(nome, preco, qtd);
+
+            if(erro){
+                alert(erro);
+                return;
+            }
+
+            const existente = produtos.find(p =>
+                p.nome.toLowerCase() === nome.trim().toLowerCase()
+            );
+
+            if(existente){
+
+                existente.qtd += qtd;
+                existente.preco = preco;
+
+                saida.innerHTML =
+                "<p>Produto atualizado: <strong>" +
+                existente.nome +
+                "</strong></p>";
+
+            }
+            else{
+
+                produtos.push({
+                    nome: nome.trim(),
+                    preco: preco,
+                    qtd: qtd
+                });
+
+                saida.innerHTML =
+                "<p>Produto adicionado. Total: <strong>" +
+                produtos.length +
+                "</strong></p>";
+            }
+
+            limparCamposCadastro();
+        });
+
+        document.getElementById("btnListar").addEventListener("click", function(){
+
+            if(produtos.length === 0){
+                saida.innerHTML = "<p>Nenhum produto cadastrado.</p>";
+                return;
+            }
+
+            let html = "<h3>Produtos cadastrados</h3>";
+
+            html += "<table border='1' cellpadding='6' cellspacing='2'>";
+            html += "<tr>";
+            html += "<th>Índice</th>";
+            html += "<th>Produto</th>";
+            html += "<th>Preço</th>";
+            html += "<th>Qtd</th>";
+            html += "<th>Subtotal</th>";
+            html += "</tr>";
+
+            for(let i = 0; i < produtos.length; i++){
+
+                const p = produtos[i];
+                const subtotal = p.preco * p.qtd;
+
+                html += "<tr>";
+                html += "<td>" + i + "</td>";
+                html += "<td>" + p.nome + "</td>";
+                html += "<td>" + p.preco.toFixed(2) + "</td>";
+                html += "<td>" + p.qtd + "</td>";
+                html += "<td>" + subtotal.toFixed(2) + "</td>";
+                html += "</tr>";
+
+            }
+
+            html += "</table>";
+
+            saida.innerHTML = html;
+        });
+
+        document.getElementById("btnResumo").addEventListener("click", function(){
+
+            if(produtos.length === 0){
+                saida.innerHTML = "<p>Nenhum produto cadastrado.</p>";
+                return;
+            }
+
+            const totalItens =
+            produtos.reduce((acc, p) => acc + p.qtd, 0);
+
+            const totalValor =
+            produtos.reduce((acc, p) =>
+                acc + (p.preco * p.qtd), 0
+            );
+
+            saida.innerHTML =
+            "<h3>Resumo</h3>" +
+            "<p>Total de produtos: <strong>" + produtos.length + "</strong></p>" +
+            "<p>Total de itens: <strong>" + totalItens + "</strong></p>" +
+            "<p>Valor total do estoque: <strong>R$ " + totalValor.toFixed(2) + "</strong></p>";
+        });
+
+        document.getElementById("btnRemover").addEventListener("click", function(){
+
+            const idx = Number(idxRemoverEl.value);
+
+            if(!Number.isInteger(idx) || idx < 0 || idx >= produtos.length){
+                alert("Índice inválido.");
+                return;
+            }
+
+            const removido = produtos.splice(idx, 1)[0];
+
+            saida.innerHTML =
+            "<p>Removido: <strong>" +
+            removido.nome +
+            "</strong></p>";
+
+            idxRemoverEl.value = "";
+        });
+
+        document.getElementById("btnLimpar").addEventListener("click", function(){
+
+            produtos.length = 0;
+
+            saida.innerHTML =
+            "<p>Todos os produtos foram removidos.</p>";
+
+            limparCamposCadastro();
+            idxRemoverEl.value = "";
+        });
+    </script>
+</body>
+</html>

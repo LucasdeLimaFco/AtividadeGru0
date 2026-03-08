@@ -1,0 +1,25 @@
+ input {
+    color: rgb(94, 25, 158);
+    border-color: rgb(18, 18, 19);
+ }
+
+ button {
+    border-color: rgb(18, 18, 19);
+    color: rgb(13, 13, 24);
+ }
+
+ table {
+    border-color: blue;
+    border-style: double;
+ }
+
+ h2 {
+    font-family: 'Lucida Sans', Verdana, sans-serif;
+    color: darkcyan;
+ }
+
+ body {
+    background-color: rgb(195, 214, 224);
+    font-family: 'Lucida Sans', Verdana, sans-serif;
+    color: rgb(52, 158, 105);
+ }

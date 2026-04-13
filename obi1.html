@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            Atividade 1
+        </title>
+    </head>
+    <body>
+        <h2>
+            Exercício 1 — Maior valor
+        </h2>
+        <hr>
+        <input id="inpValor" type="number" placeholder="Ex: 5">
+        <button id="btnAdd">Adicionar</button>
+        <button id="btnShow">Exibir</button>
+
+        <div id="divSaida"></div>
+        <script>
+            const divSaida = document.getElementById("divSaida")
+            const iValor = document.getElementById("inpValor");
+            const lista = [];
+
+            document.getElementById("btnAdd").addEventListener("click", function(){
+               const cValor = iValor.value
+                if (iValor.value !== "") {
+                    lista.push(cValor); // Adiciona apenas o número na lista
+                    console.log("Adicionado:", cValor);
+                    iValor.value = ""; // Limpa o campo para o próximo número
+                    iValor.focus();
+                } else {
+                    alert("Digite um número antes de adicionar!");
+                }
+            });
+
+            document.getElementById("btnShow").addEventListener("click", function(){
+                const maior = Math.max(...lista);
+                const posicaoMaior = lista.indexOf(maior);
+
+                divSaida.innerHTML = 
+                `Valores digitados: ${lista.join(", ")} <br>                      
+                <strong>O maior valor é: ${maior}</strong><br>
+                <strong>a posicao é: ${posicaoMaior} </strong>
+                `;
+            });
+
+
+
+        </script>
+    </body>
+</html>

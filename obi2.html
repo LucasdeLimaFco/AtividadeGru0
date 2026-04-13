@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Exercício 2</title>
+</head>
+<body>
+    <h2>Contar Pares</h2>
+    <input id="inpValor" type="number">
+    <button id="btnAdd">Adicionar</button>
+    <button id="btnShow">Exibir</button>
+    <div id="divSaida"></div>
+
+    <script>
+        const lista = [];
+
+        // A lógica mais simples: um loop que lê cada número e soma se for par
+        function contarPares(vetor) {
+            let total = 0;
+            for (let numero of vetor) {
+                if (numero % 2 === 0) total++;
+            }
+            return total;
+        }
+
+        document.getElementById("btnAdd").onclick = () => {
+            const campo = document.getElementById("inpValor");
+            if (campo.value) {
+                lista.push(Number(campo.value));
+                campo.value = "";
+                campo.focus();
+            }
+        };
+
+        document.getElementById("btnShow").onclick = () => {
+            document.getElementById("divSaida").innerHTML = `
+                Lista: [${lista}] <br>
+                Pares: ${contarPares(lista)}
+            `;
+        };
+    </script>
+</body>
+</html>

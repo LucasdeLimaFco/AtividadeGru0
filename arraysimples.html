@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> atividade sobre Array</title>
+</head>
+ <body>
+ <h1>  Preencher Array (Simples) </h1>
+
+ <input placeholder="Digite um item" id="n1">
+ <button onclick='colocar()'>Adicionar</button>
+ <button onclick='Lista()'>Mostrar conteúdo</button>
+ <button onclick='apagar()'>Limpar</button>
+ <p id = 'lista'> </p>
+ 
+ <script> 
+ let ordem = []
+ 
+ function colocar() {
+ parseFloat(document.getElementById('n1').value)
+ let c = ordem.push(n1.value)
+ 
+ }
+ 
+ function Lista(){
+  
+  document.getElementById('lista').textContent = ordem
+  }
+
+  function apagar() {
+    ordem.pop(n1.value)
+  }
+ </script>
+
+ </body>
+</html>
